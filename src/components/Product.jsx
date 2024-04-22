@@ -12,14 +12,3 @@ export const Product = ({ name, imgUrl = "https://dummyimage.com/640x480/2a2a2a/
   );
 };
 
-
-export const Mailbox = ({username, message}) => {
-	return(
-		<>
-		<p>Hello {username}!</p>
-		{message.length > 0 && (
-			<p>You have {message.length} unread messages</p>
-		)}
-		</>
-	)
-}
