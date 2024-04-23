@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export const Product = ({ name, imgUrl = "https://dummyimage.com/640x480/2a2a2a/ffffff&text=Product+image+placeholder", price }) => {
   return (
     <>
@@ -5,10 +7,16 @@ export const Product = ({ name, imgUrl = "https://dummyimage.com/640x480/2a2a2a/
       <img
         src={imgUrl}
         alt={name}
-        width="640"
+        width="480"
       />
       <p>Price: {price} credits</p>
     </>
   );
 };
+
+Product.propTypes = {
+  name: PropTypes.string.isRequired,
+  imgUrl: PropTypes.string,
+  price: PropTypes.number.isRequired
+}
 
