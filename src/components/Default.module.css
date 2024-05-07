@@ -5,27 +5,32 @@
 	color: white;
   }
   
-  .alert.info {
+  .info {
+	composes: alert;
 	background-color: blue;
   }
   
-  .alert.success {
+  .success {
+	composes: alert;
 	background-color: green;
   }
   
-  .alert.error {
+  .error {
+	composes: alert;
 	background-color: red;
   }
   
-  .alert.warning {
+  .warning {
+	composes: alert;
 	background-color: orange;
   }
 
-  .alert.is-outlined {
+  .alert.isOutlined {
+	
 	outline: 1px solid black;
   }
 
-  .alert.is-elevated {
+  .alert.isElevated {
 	box-shadow:  rgb(0 0 0 / 20%) 0px 3px 3px -2px, rgb(0 0 0 / 14%) 0px 3px 4px 0px,
     rgb(0 0 0 / 12%) 0px 1px 8px 0px;;
   }
