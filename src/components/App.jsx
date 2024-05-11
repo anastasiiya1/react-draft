@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Product } from "./Product.jsx";
 import { BookList, Card } from "./Test.jsx";
 import { Default } from './Default.jsx'
@@ -32,11 +32,15 @@ export default function App() {
  const ClickCounter = () => { // let clicks = 0; 
   const [ clicks, setClicks ] = useState(0);
 
-  const handleClick = () =>{
-     // clicks = clicks + 1;
-    setClicks(clicks + 1);
-  };
-  return <button onClick={handleClick}>Current: {clicks}!</button> 
+  useEffect(() => {
+    document.title = `You clicked zero times`
+  }, [])
+
+  // const handleClick = () =>{
+  //    // clicks = clicks + 1;
+  //   setClicks(clicks + 1);
+  // };
+  return <button onClick={() => setClicks(clicks + 1)}>Current: {clicks}!</button> 
 }
 
 // const [ clicks, setClicks ] = useState(0);
@@ -45,7 +49,7 @@ export default function App() {
 //       setClicks(clicks + 1);
 //     };
 
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -68,8 +72,25 @@ export default function App() {
       y: values.y +1
     })
   };
+
+  // const Modal = () => {
+  //   useEffect(() => {
+  //     setInterval(() => {
+  //       console.log(`Interval - ${Date.now()}`);
+  //     }, 200)
+  //   }, []);
+
+  //   return <div>Modal</div>
+  // }
+
+  const [isOpen, setIsOpen] = useState(false);
+ 
   return (
     <div>
+      {/* <button onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? "Close" : "Open"}
+      </button>
+      {isOpen && <Modal/>} */}
       <p>
         x: {values.x}, y: {values.y}
       </p>
