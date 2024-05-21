@@ -1,9 +1,13 @@
-// import { useState, useEffect } from 'react';
+import { useState } from 'react';
 // import { Product } from "./Product.jsx";
 // import { BookList, Card } from "./Test.jsx";
 // import { Default } from './Default.jsx'
 // import { HiUser } from 'react-icons/hi'
-import LoginForm from './LoginForm';
+import LangSwitcher from './LangSwitcher';
+// import LoginForm from './LoginForm';
+// import CoffeeSelector from './CoffeeSelector';
+// import CoffeeCondiments from './CoffeeCondiments';
+import FeedbackForm from './FeedbackForm';
 
 
 // const favouriteBooks = [
@@ -133,14 +137,22 @@ import LoginForm from './LoginForm';
 // }
 
 const App = () => {
+  const [lang, setLang] = useState("uk")
 
-  const handleLogin = (userData) => {
-    console.log(userData);
-  }
+  // const handleLogin = (userData) => {
+  //   console.log(userData);
+  // }
 
   
   return(
-    <LoginForm onLogin={handleLogin}/>
+    <>
+    {/* <LoginForm onLogin={handleLogin}/> */}
+    <LangSwitcher value={lang} onSelect={setLang}/>
+    {/* <CoffeeSelector/>
+    <CoffeeCondiments/> */}
+    <FeedbackForm/>
+    </>
+    
   )
 }
 
