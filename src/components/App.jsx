@@ -1,14 +1,18 @@
-import { useState } from 'react';
+import { useState, createContext, useContext} from "react";
 // import { Product } from "./Product.jsx";
 // import { BookList, Card } from "./Test.jsx";
 // import { Default } from './Default.jsx'
 // import { HiUser } from 'react-icons/hi'
-import LangSwitcher from './LangSwitcher';
+// import LangSwitcher from './LangSwitcher';
 // import LoginForm from './LoginForm';
 // import CoffeeSelector from './CoffeeSelector';
 // import CoffeeCondiments from './CoffeeCondiments';
-import FeedbackForm from './FeedbackForm';
-
+// import FeedbackForm from './FeedbackForm';
+// import axios from "axios";
+import ArticleList from "./ArticleList";
+import { fetchArticlesWithTopics } from "./articles-api";
+import SearchForm from "./SearchForm";
+import VideoPlayer from "./VideoPlayer";
 
 // const favouriteBooks = [
 // 	{ id: 'id-1', name: 'JS for begginers'},
@@ -35,7 +39,7 @@ import FeedbackForm from './FeedbackForm';
 // }
 
 // export default function App() {
-//  const ClickCounter = () => { // let clicks = 0; 
+//  const ClickCounter = () => { // let clicks = 0;
 //   const [ clicks, setClicks ] = useState(0);
 
 //   useEffect(() => {
@@ -46,7 +50,7 @@ import FeedbackForm from './FeedbackForm';
 //   //    // clicks = clicks + 1;
 //   //   setClicks(clicks + 1);
 //   // };
-//   return <button onClick={() => setClicks(clicks + 1)}>Current: {clicks}!</button> 
+//   return <button onClick={() => setClicks(clicks + 1)}>Current: {clicks}!</button>
 // }
 
 // // const [ clicks, setClicks ] = useState(0);
@@ -90,7 +94,7 @@ import FeedbackForm from './FeedbackForm';
 //   // }
 
 //   const [isOpen, setIsOpen] = useState(false);
- 
+
 //   return (
 //     <div>
 //       {/* <button onClick={() => setIsOpen(!isOpen)}>
@@ -120,7 +124,7 @@ import FeedbackForm from './FeedbackForm';
 //       <Default variant="success" elevated outlined> Payment received, thank you for your purchase</Default>
 //       <Default variant="warning" elevated outlined> Please update your profile contact information</Default>
 //       </Card>
-    
+
 //       <h2>Best selling</h2>
 //       <Product
 //         name="Tacos With Lime"
@@ -137,23 +141,57 @@ import FeedbackForm from './FeedbackForm';
 // }
 
 const App = () => {
-  const [lang, setLang] = useState("uk")
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  // const handleLogin = (userData) => {
-  //   console.log(userData);
-  // }
+  const myContext = createContext();
+  const contextValue = useContext(myContext);
 
-  
-  return(
+  async function handleSearch(topic) {
+    try {
+      setArticles([]);
+      setError(false);
+      setLoading(true);
+
+      const data = await fetchArticlesWithTopics(topic);
+      setArticles(data);
+    } catch (error) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+
+
+  // useEffect(() => {
+  //   async function fetchArticles() {
+  //     try {
+  //       setLoading(true);
+  //       const data = await fetchArticlesWithTopics("react");
+  //       setArticles(data);
+  //     } catch (error) {
+  //       setError(true);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
+  //   fetchArticles();
+  // }, []);
+
+  return (
     <>
-    {/* <LoginForm onLogin={handleLogin}/> */}
-    <LangSwitcher value={lang} onSelect={setLang}/>
-    {/* <CoffeeSelector/>
-    <CoffeeCondiments/> */}
-    <FeedbackForm/>
+      <h1>Latest articles</h1>
+      <SearchForm onSearch={handleSearch} />
+      <VideoPlayer source="http://media.w3.org/2010/05/sintel/trailer.mp4" />
+      {loading && <p>Loading data, please wait..</p>}
+      {error && (
+        <p>Whoops, something went wrong! Please try reloading this page!</p>
+      )}
+      {articles.length > 0 && <ArticleList items={articles} />}
     </>
-    
-  )
-}
+  );
+};
 
-export default App
+export default App;
