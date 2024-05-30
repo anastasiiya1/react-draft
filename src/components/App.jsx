@@ -1,4 +1,4 @@
-import { useState, createContext, useContext} from "react";
+// import { useState, createContext, useContext} from "react";
 // import { Product } from "./Product.jsx";
 // import { BookList, Card } from "./Test.jsx";
 // import { Default } from './Default.jsx'
@@ -9,10 +9,52 @@ import { useState, createContext, useContext} from "react";
 // import CoffeeCondiments from './CoffeeCondiments';
 // import FeedbackForm from './FeedbackForm';
 // import axios from "axios";
-import ArticleList from "./ArticleList";
-import { fetchArticlesWithTopics } from "./articles-api";
-import SearchForm from "./SearchForm";
-import VideoPlayer from "./VideoPlayer";
+// import ArticleList from "./ArticleList";
+// import { fetchArticlesWithTopics } from "./articles-api";
+// import SearchForm from "./SearchForm";
+// import VideoPlayer from "./VideoPlayer";
+
+import { useParams } from "react-router-dom";
+import { Routes, Route, NavLink} from "react-router-dom";
+import clsx from "clsx";
+import Home from '../pages/Home';
+import About from "../pages/About";
+import Products from "../pages/Products";
+import NotFound from "../pages/NotFound";
+import ProductDetails from "../pages/ProductDetails";
+import css from "./App.module.css";
+
+const buildLinkClass = ({ isActive }) => {
+  return clsx(css.link, isActive && css.active);
+};
+
+ const App = () => {
+  return (
+    <>
+      <nav>
+        <NavLink to="/" className={buildLinkClass}>
+          Home
+        </NavLink>
+        <NavLink to='/about' className={buildLinkClass}>
+          About
+        </NavLink>
+        <NavLink to='/products' className={buildLinkClass}>
+          Products
+        </NavLink>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/products/:productId" element={<ProductDetails/>}/>
+      </Routes>
+    </>
+  );
+};
+
+export default App;
 
 // const favouriteBooks = [
 // 	{ id: 'id-1', name: 'JS for begginers'},
@@ -140,58 +182,56 @@ import VideoPlayer from "./VideoPlayer";
 //   );
 // }
 
-const App = () => {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+// const App = () => {
+//   const [articles, setArticles] = useState([]);
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState(false);
 
-  const myContext = createContext();
-  const contextValue = useContext(myContext);
+//   const myContext = createContext();
+//   const contextValue = useContext(myContext);
 
-  async function handleSearch(topic) {
-    try {
-      setArticles([]);
-      setError(false);
-      setLoading(true);
+//   async function handleSearch(topic) {
+//     try {
+//       setArticles([]);
+//       setError(false);
+//       setLoading(true);
 
-      const data = await fetchArticlesWithTopics(topic);
-      setArticles(data);
-    } catch (error) {
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  }
+//       const data = await fetchArticlesWithTopics(topic);
+//       setArticles(data);
+//     } catch (error) {
+//       setError(true);
+//     } finally {
+//       setLoading(false);
+//     }
+//   }
 
+// useEffect(() => {
+//   async function fetchArticles() {
+//     try {
+//       setLoading(true);
+//       const data = await fetchArticlesWithTopics("react");
+//       setArticles(data);
+//     } catch (error) {
+//       setError(true);
+//     } finally {
+//       setLoading(false);
+//     }
+//   }
+//   fetchArticles();
+// }, []);
 
+//   return (
+//     <>
+//       <h1>Latest articles</h1>
+//       <SearchForm onSearch={handleSearch} />
+//       <VideoPlayer source="http://media.w3.org/2010/05/sintel/trailer.mp4" />
+//       {loading && <p>Loading data, please wait..</p>}
+//       {error && (
+//         <p>Whoops, something went wrong! Please try reloading this page!</p>
+//       )}
+//       {articles.length > 0 && <ArticleList items={articles} />}
+//     </>
+//   );
+// };
 
-  // useEffect(() => {
-  //   async function fetchArticles() {
-  //     try {
-  //       setLoading(true);
-  //       const data = await fetchArticlesWithTopics("react");
-  //       setArticles(data);
-  //     } catch (error) {
-  //       setError(true);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-  //   fetchArticles();
-  // }, []);
-
-  return (
-    <>
-      <h1>Latest articles</h1>
-      <SearchForm onSearch={handleSearch} />
-      <VideoPlayer source="http://media.w3.org/2010/05/sintel/trailer.mp4" />
-      {loading && <p>Loading data, please wait..</p>}
-      {error && (
-        <p>Whoops, something went wrong! Please try reloading this page!</p>
-      )}
-      {articles.length > 0 && <ArticleList items={articles} />}
-    </>
-  );
-};
-
-export default App;
+// export default App;
